@@ -29,6 +29,7 @@ class _MyAppState extends State<MyApp> {
   };
 
   List<Meal> _availableMeals = DUMMY_MEALS;
+  List<Meal> _favoriteMeals = [];
 
   void _setFilters(Map<String, bool> filterData) {
     setState(() {
@@ -50,6 +51,24 @@ class _MyAppState extends State<MyApp> {
         return true;
       }).toList();
     });
+  }
+
+  void _toggleFavorites(String mealId) {
+    final existingIndex =
+        _favoriteMeals.indexWhere((meal) => meal.id == mealId);
+    if (existingIndex >= 0) {
+      setState(() {
+        _favoriteMeals.removeAt(existingIndex);
+      });
+    } else {
+      setState(() {
+        _favoriteMeals.add(DUMMY_MEALS.firstWhere((meal) => meal.id == mealId));
+      });
+    }
+  }
+
+  bool _isMealFavorite(String id) {
+    return _favoriteMeals.any((meal) => meal.id == id);
   }
 
   @override
@@ -78,15 +97,15 @@ class _MyAppState extends State<MyApp> {
       // home: CategoriesScreen(),
       initialRoute: '/', // default is '/'
       routes: {
-        // '/': (ctx) => TabsScreen(),
-        '/': (ctx) => TabsScreenSceond(),
+        '/': (ctx) => TabsScreen(_favoriteMeals),
+        // '/': (ctx) => TabsScreenSceond(_favoriteMeals),
         FiltersScreen.routeName: (ctx) => FiltersScreen(_setFilters, _filters),
         // '/categories':
         // '/category-meal': (ctx) => CategoryMealScreen(), // OR
         CategoryMealScreen.routeName: (ctx) =>
             CategoryMealScreen(_availableMeals),
         MealDetailScreen.routeName: (BuildContext context) =>
-            MealDetailScreen(),
+            MealDetailScreen(_toggleFavorites, _isMealFavorite),
       },
       onGenerateRoute: (settings) {
         print(settings.arguments);

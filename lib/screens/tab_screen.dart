@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/models/meal.dart';
 import 'package:shop_app/screens/favorites_screen.dart';
+import 'package:shop_app/widgets/main_drawer.dart';
 
 import './categories_screen.dart';
 
-
 class TabsScreen extends StatelessWidget {
+  final List<Meal> favoriteMeal;
+
+  TabsScreen(this.favoriteMeal);
+
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -13,7 +19,6 @@ class TabsScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text("Meals"),
-          
           bottom: TabBar(
             tabs: [
               Tab(
@@ -26,14 +31,15 @@ class TabsScreen extends StatelessWidget {
               ),
             ],
           ),
-          
         ),
+        
         body: TabBarView(
           children: [
             CategoriesScreen(),
-            FavoritesScreen(),
+            FavoritesScreen(favoriteMeal),
           ],
         ),
+        drawer: MainDrawer(),
       ),
     );
   }

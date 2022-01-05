@@ -10,7 +10,7 @@ class MealItem extends StatelessWidget {
   final int duration;
   final Complextiy complextiy;
   final Affordability affordability;
-  final Function removeItem;
+  // final Function removeItem;
 
   MealItem({
     @required this.id,
@@ -19,7 +19,6 @@ class MealItem extends StatelessWidget {
     @required this.duration,
     @required this.affordability,
     @required this.complextiy,
-    @required this.removeItem,
   });
 
   void _selectMeal(BuildContext context) {
@@ -30,7 +29,7 @@ class MealItem extends StatelessWidget {
     )
         .then((value) {
       if (value != null) {
-        removeItem(value);
+        // removeItem(value);
       }
     });
   }
